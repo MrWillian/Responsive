@@ -1,4 +1,5 @@
 import { Dimensions, PixelRatio } from 'react-native';
+import Orientation from 'react-native-orientation';
 
 let { width, height } = Dimensions.get('window');
 
@@ -13,21 +14,29 @@ const heightToDp = number => {
 }
 
 const listenToOrientationChanges = ref => {
-  Dimensions.addEventListener('change', newDimension => {
-    width: newDimension.screen.width;
-    height: newDimension.screen.height;
-  });
+  Orientation.addOrientationListener(_orientationDidChange)
+  // Dimensions.addEventListener('change', newDimension => {
+  //   width: newDimension.screen.width;
+  //   height: newDimension.screen.height;
+  // });
   ref.setState({
     orientation: height > width ? 'portrait' : 'landscape',
   });
 };
 
 const removeOrientationChanges = () => {
-  Dimensions.removeEventListener('change');
+  Orientation.removeOrientationListener(_orientationDidChange);
+}
+
+const _orientationDidChange = (newDimension) => {
+  console.log(newDimension);
+  // width = newDimension.screen.width;
+  // height = newDimension.screen.height;
 }
 
 const getDynamicStyles = (portraitStyle, landscapeStyle) => {
   const isPortrait = height > width;
+  console.log(isPortrait);
   if (isPortrait) {
     return portraitStyle;
   } else {
