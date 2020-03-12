@@ -15,17 +15,25 @@ import {
   getDynamicStyles 
 } from './Responsive';
 
+import Orientation from 'react-native-orientation';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  _orientationDidChange = (orientation) => {
+    console.log('ENTROU')
+  }
+
   componentDidMount() {
-    listenToOrientationChanges(this);
+    Orientation.addOrientationListener(this._orientationDidChange);
+    // listenToOrientationChanges(this);
   }
   
   componentWillUnmount() {
-    removeOrientationChanges();
+    Orientation.removeOrientationListener(this._orientationDidChange);
+    // removeOrientationChanges();
   }
 
   render() {
